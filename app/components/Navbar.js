@@ -2,7 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Building2 } from "lucide-react";
+import {
+    Menu,
+    X,
+    Building2,
+    Home,
+    Info,
+    Briefcase,
+    Phone
+} from "lucide-react";
 import clsx from "clsx";
 
 export default function Navbar() {
@@ -11,17 +19,17 @@ export default function Navbar() {
     const [activeSection, setActiveSection] = useState("home");
 
     const navLinks = [
-        { name: "Home", id: "home" },
-        { name: "About", id: "about" },
-        { name: "Services", id: "services" },
+        { name: "Home", id: "home", icon: Home },
+        { name: "About", id: "about", icon: Info },
+        { name: "Services", id: "services", icon: Briefcase },
     ];
 
-    /* ===== Smooth Scroll Function ===== */
+    /* ===== Smooth Scroll ===== */
     const scrollToSection = (id) => {
         const element = document.getElementById(id);
         if (!element) return;
 
-        const navbarHeight = 80; // h-20
+        const navbarHeight = 80;
         const top =
             element.getBoundingClientRect().top +
             window.scrollY -
@@ -58,7 +66,6 @@ export default function Navbar() {
 
         window.addEventListener("scroll", handleScroll);
         handleScroll();
-
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
@@ -72,7 +79,7 @@ export default function Navbar() {
                 className={clsx(
                     "fixed top-0 w-full z-50 transition-all duration-300",
                     scrolled
-                        ? "bg-white/90 backdrop-blur-xl shadow-soft border-b border-border-soft"
+                        ? "bg-white/80 backdrop-blur-xl shadow-lg border-b border-slate-200"
                         : "bg-background-grey"
                 )}
             >
@@ -81,9 +88,9 @@ export default function Navbar() {
                     {/* ===== Logo ===== */}
                     <button
                         onClick={() => scrollToSection("home")}
-                        className="flex items-center gap-3"
+                        className="flex items-center gap-3 group"
                     >
-                        <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-premium">
+                        <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition">
                             <Building2 size={20} />
                         </div>
                         <span className="text-xl font-semibold text-primary tracking-tight">
@@ -92,36 +99,45 @@ export default function Navbar() {
                     </button>
 
                     {/* ===== Desktop Nav ===== */}
-                    <div className="hidden lg:flex items-center gap-10">
-                        {navLinks.map((link) => (
-                            <button
-                                key={link.id}
-                                onClick={() => scrollToSection(link.id)}
-                                className={clsx(
-                                    "relative text-sm font-semibold transition-colors duration-300",
-                                    activeSection === link.id
-                                        ? "text-primary"
-                                        : "text-text-muted hover:text-primary"
-                                )}
-                            >
-                                {link.name}
+                    <div className="hidden lg:flex items-center gap-10 relative">
 
-                                <span
+                        {navLinks.map((link) => {
+                            const Icon = link.icon;
+
+                            return (
+                                <button
+                                    key={link.id}
+                                    onClick={() => scrollToSection(link.id)}
                                     className={clsx(
-                                        "absolute left-0 -bottom-1 h-[2px] bg-primary transition-all duration-300",
-                                        activeSection === link.id ? "w-full" : "w-0"
+                                        "relative flex items-center gap-2 text-sm font-semibold transition-all duration-300",
+                                        activeSection === link.id
+                                            ? "text-primary"
+                                            : "text-slate-500 hover:text-primary"
                                     )}
-                                />
-                            </button>
-                        ))}
+                                >
+                                    <Icon size={16} />
+                                    {link.name}
+
+                                    {/* Animated underline */}
+                                    <span
+                                        className={clsx(
+                                            "absolute left-0 -bottom-1 h-[2px] bg-primary transition-all duration-300",
+                                            activeSection === link.id ? "w-full" : "w-0"
+                                        )}
+                                    />
+                                </button>
+                            );
+                        })}
 
                         {/* Contact Button */}
                         <button
                             onClick={() => scrollToSection("contact")}
-                            className="bg-primary text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-premium hover:shadow-lg transition-all duration-300"
+                            className="flex items-center gap-2 bg-primary text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-md hover:shadow-lg hover:scale-[1.03] transition-all duration-300"
                         >
+                            <Phone size={16} />
                             Contact
                         </button>
+
                     </div>
 
                     {/* ===== Mobile Toggle ===== */}
@@ -164,29 +180,35 @@ export default function Navbar() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -15 }}
                         transition={{ duration: 0.3 }}
-                        className="fixed top-20 inset-x-0 bg-white shadow-xl border-t border-border-soft lg:hidden z-40"
+                        className="fixed top-20 inset-x-0 bg-white shadow-xl border-t border-slate-200 lg:hidden z-40"
                     >
-                        <div className="flex flex-col px-6 py-8 space-y-6 text-center">
+                        <div className="flex flex-col px-6 py-8 space-y-6">
 
-                            {navLinks.map((link) => (
-                                <button
-                                    key={link.id}
-                                    onClick={() => scrollToSection(link.id)}
-                                    className={clsx(
-                                        "text-base font-semibold",
-                                        activeSection === link.id
-                                            ? "text-primary"
-                                            : "text-text-muted"
-                                    )}
-                                >
-                                    {link.name}
-                                </button>
-                            ))}
+                            {navLinks.map((link) => {
+                                const Icon = link.icon;
+
+                                return (
+                                    <button
+                                        key={link.id}
+                                        onClick={() => scrollToSection(link.id)}
+                                        className={clsx(
+                                            "flex items-center gap-3 text-base font-semibold transition",
+                                            activeSection === link.id
+                                                ? "text-primary"
+                                                : "text-slate-600"
+                                        )}
+                                    >
+                                        <Icon size={18} />
+                                        {link.name}
+                                    </button>
+                                );
+                            })}
 
                             <button
                                 onClick={() => scrollToSection("contact")}
-                                className="bg-primary text-white py-3 rounded-xl font-bold shadow-premium"
+                                className="flex items-center justify-center gap-2 bg-primary text-white py-3 rounded-xl font-bold shadow-md mt-4"
                             >
+                                <Phone size={18} />
                                 Contact
                             </button>
 
