@@ -16,18 +16,48 @@ export async function POST(req) {
             }
         });
 
-        await transporter.sendMail({
+        const mailOptions = {
             from: `"AB Corporation Website" <info@abcorpindia.com>`,
             to: "info@abcorpindia.com",
+
+            // VERY IMPORTANT for inbox delivery
+            replyTo: email,
+
             subject: `New Contact Message from ${name}`,
+
             html: `
-        <h3>New Contact Form Message</h3>
-        <p><b>Name:</b> ${name}</p>
-        <p><b>Email:</b> ${email}</p>
-        <p><b>Message:</b></p>
-        <p>${message}</p>
-      `
-        });
+        <div style="font-family: Arial, sans-serif; color:#333;">
+          <h2 style="color:#1a73e8;">New Contact Form Submission</h2>
+
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+
+          <p><strong>Message:</strong></p>
+          <p>${message}</p>
+
+          <hr>
+
+          <p style="font-size:13px;color:#777;">
+          This email was sent from the contact form on <strong>AB Corporation</strong>.
+          </p>
+        </div>
+      `,
+
+            // Plain text version helps spam filters
+            text: `
+New Contact Form Submission
+
+Name: ${name}
+Email: ${email}
+
+Message:
+${message}
+
+Sent from AB Corporation Website
+`
+        };
+
+        await transporter.sendMail(mailOptions);
 
         return Response.json({ success: true });
 
