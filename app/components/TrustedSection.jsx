@@ -11,6 +11,7 @@ import {
     Landmark,
     Wallet,
     Database,
+    FlaskConical,
 } from "lucide-react";
 
 export default function TrustedSection() {
@@ -24,6 +25,7 @@ export default function TrustedSection() {
         { name: "DBS Bank", icon: Landmark, color: "#FF3333" },
         { name: "Paytm", icon: Wallet, color: "#002E6E" },
         { name: "Datasoft", icon: Database, color: "#20B2AA" },
+        { name: "High Media Laboratories", icon: FlaskConical, color: "#E11D48" },
     ];
 
     const duplicated = [...clients, ...clients];
@@ -31,7 +33,7 @@ export default function TrustedSection() {
     return (
         <section
             id="trusted"
-            className="relative py-24 lg:py-32 bg-gradient-to-b from-white via-slate-50 to-white overflow-hidden"
+            className="relative py-20 md:py-24 lg:py-32 bg-gradient-to-b from-white via-slate-50 to-white overflow-hidden"
         >
             {/* Ambient Glow */}
             <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
@@ -44,7 +46,7 @@ export default function TrustedSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="text-center max-w-3xl mx-auto mb-16 lg:mb-20"
+                    className="text-center max-w-3xl mx-auto mb-14 md:mb-16 lg:mb-20"
                 >
                     <p className="text-xs uppercase tracking-[0.35em] text-primary font-semibold mb-4">
                         Trusted By
@@ -54,48 +56,50 @@ export default function TrustedSection() {
                         Strategic Partnerships Across Sectors
                     </h2>
 
-                    <p className="mt-6 text-slate-500 text-base sm:text-lg">
+                    <p className="mt-5 text-slate-500 text-sm sm:text-base md:text-lg">
                         We collaborate with government institutions, financial
                         organizations, and technology partners to deliver
                         large-scale infrastructure excellence.
                     </p>
                 </motion.div>
 
-                {/* Edge Fade (Adjusted for mobile) */}
-                <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-24 lg:w-32 bg-gradient-to-r from-white via-white/80 to-transparent z-10" />
-                <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-24 lg:w-32 bg-gradient-to-l from-white via-white/80 to-transparent z-10" />
+                {/* Edge Fade */}
+                <div className="pointer-events-none absolute inset-y-0 left-0 w-12 sm:w-20 lg:w-32 bg-gradient-to-r from-white via-white/80 to-transparent z-10" />
+                <div className="pointer-events-none absolute inset-y-0 right-0 w-12 sm:w-20 lg:w-32 bg-gradient-to-l from-white via-white/80 to-transparent z-10" />
 
                 {/* ===== Marquee ===== */}
                 <div className="overflow-hidden w-full">
+
                     <motion.div
                         animate={{ x: ["0%", "-50%"] }}
                         transition={{
                             repeat: Infinity,
-                            duration: 32,
+                            duration: 36,
                             ease: "linear",
                         }}
-                        className="flex w-max gap-10 sm:gap-16 lg:gap-20"
+                        className="flex w-max gap-6 sm:gap-12 lg:gap-16 will-change-transform"
                     >
+
                         {duplicated.map((client, index) => {
                             const Icon = client.icon;
 
                             return (
                                 <div
                                     key={index}
-                                    className="relative group/card flex items-center gap-4 sm:gap-5 
-                  min-w-[200px] sm:min-w-[220px] lg:min-w-[240px] 
-                  px-5 sm:px-6 lg:px-7 
-                  py-4 sm:py-5 
-                  rounded-2xl 
-                  backdrop-blur-xl bg-white/70 
+                                    className="relative group flex items-center gap-3 sm:gap-4 
+                  min-w-[170px] sm:min-w-[210px] lg:min-w-[240px] 
+                  px-4 sm:px-6 lg:px-7 
+                  py-3 sm:py-4 
+                  rounded-xl sm:rounded-2xl 
+                  backdrop-blur-xl bg-white/80 
                   border border-slate-200 
-                  shadow-[0_10px_40px_rgba(0,0,0,0.05)] 
-                  hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] 
+                  shadow-[0_8px_30px_rgba(0,0,0,0.04)] 
+                  hover:shadow-[0_18px_50px_rgba(0,0,0,0.08)] 
                   transition-all duration-500"
                                 >
                                     {/* Hover Glow */}
                                     <div
-                                        className="absolute inset-0 opacity-0 group-hover/card:opacity-100 rounded-2xl transition duration-500"
+                                        className="absolute inset-0 opacity-0 group-hover:opacity-100 rounded-2xl transition duration-500"
                                         style={{
                                             background: `radial-gradient(circle at center, ${client.color}20, transparent 70%)`,
                                         }}
@@ -103,8 +107,8 @@ export default function TrustedSection() {
 
                                     {/* Icon */}
                                     <div
-                                        className="relative w-10 h-10 sm:w-11 sm:h-11 lg:w-12 lg:h-12 
-                    rounded-xl flex items-center justify-center text-white"
+                                        className="relative w-9 h-9 sm:w-11 sm:h-11 lg:w-12 lg:h-12 
+                    rounded-lg sm:rounded-xl flex items-center justify-center text-white"
                                         style={{ backgroundColor: client.color }}
                                     >
                                         <Icon size={18} className="sm:hidden" />
@@ -114,7 +118,7 @@ export default function TrustedSection() {
 
                                     {/* Name */}
                                     <span
-                                        className="relative font-semibold tracking-wide text-xs sm:text-sm transition-all duration-300"
+                                        className="relative font-semibold tracking-wide text-xs sm:text-sm"
                                         style={{ color: client.color }}
                                     >
                                         {client.name}
@@ -122,9 +126,10 @@ export default function TrustedSection() {
                                 </div>
                             );
                         })}
-                    </motion.div>
-                </div>
 
+                    </motion.div>
+
+                </div>
             </div>
         </section>
     );

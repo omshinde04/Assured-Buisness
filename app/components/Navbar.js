@@ -94,7 +94,7 @@ export default function Navbar() {
                             <Building2 size={20} />
                         </div>
                         <span className="text-xl font-semibold text-primary tracking-tight">
-                            AB Corporation
+                            Assured Buisness
                         </span>
                     </button>
 

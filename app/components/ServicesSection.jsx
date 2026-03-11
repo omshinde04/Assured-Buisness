@@ -7,7 +7,7 @@ import {
     ClipboardCheck,
     HardHat,
     FileText,
-    Users,
+    Microscope,
     Server,
     ArrowRight,
 } from "lucide-react";
@@ -41,10 +41,10 @@ export default function ServicesSection() {
                 "Converting physical documents into secure digital formats for streamlined management.",
         },
         {
-            icon: <Users size={28} />,
-            title: "Aadhaar Manpower Solutions",
+            icon: <Microscope size={28} />,
+            title: "AI-Based Soil Testing Device",
             description:
-                "Reliable manpower deployment ensuring compliance and operational accuracy.",
+                "Advanced AI-powered soil analysis device delivering accurate nutrient insights for smarter agricultural decisions.",
         },
         {
             icon: <Server size={28} />,

@@ -76,14 +76,14 @@ export default function Footer() {
                             {/* Phone */}
                             <div className="flex items-center gap-3">
                                 <Phone size={18} className="text-blue-300 flex-shrink-0" />
-                                <span>+91</span>
+                                <span>+917219214154</span>
                             </div>
 
-                            {/* Mobile */}
+                            {/* Mobile
                             <div className="flex items-center gap-3">
                                 <Smartphone size={18} className="text-blue-300 flex-shrink-0" />
                                 <span>Mobile:</span>
-                            </div>
+                            </div> */}
 
                             {/* Email */}
                             <div className="flex items-center gap-3">

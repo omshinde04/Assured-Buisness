@@ -7,19 +7,19 @@ import { useInView } from "react-intersection-observer";
 export default function StatsSection() {
     const stats = [
         {
-            value: 328,
+            value: 500,
             suffix: "+",
             title: "Skilled Personnel",
             subtitle: "Specialized Technical Staff",
         },
         {
-            value: 150,
+            value: 250,
             suffix: "+",
             title: "Data Experts",
             subtitle: "Verification Specialists",
         },
         {
-            value: 750,
+            value: 1300,
             suffix: "+",
             title: "Aadhaar Workforce",
             subtitle: "State-wide Operators",

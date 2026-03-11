@@ -98,7 +98,9 @@ export default function ContactSection() {
                                     Head Office
                                 </h4>
                                 <p className="text-slate-600 text-sm leading-relaxed">
-                                    6, Tejonidhi, Behind Amar Tech Park,
+                                    6, Tejonidhi, Behind Amar Tech Park
+                                    <br />
+                                    near by Mis Internatinal School
                                     <br />
                                     Balewadi, Pune – 411045,
                                     <br />
