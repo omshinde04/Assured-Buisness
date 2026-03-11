@@ -2,14 +2,24 @@
 
 import { motion } from "framer-motion";
 import { MapPin, Mail } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function ContactSection() {
+    const [status, setStatus] = useState(null);
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const formStatus = params.get("status");
+        if (formStatus) {
+            setStatus(formStatus);
+        }
+    }, []);
+
     return (
         <section
             id="contact"
             className="relative py-16 lg:py-24 bg-gradient-to-b from-white via-slate-50 to-white overflow-hidden"
         >
-            {/* Ambient Glow */}
             <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative max-w-7xl mx-auto px-6">
@@ -35,7 +45,6 @@ export default function ContactSection() {
                     </p>
                 </motion.div>
 
-                {/* ===== Main Layout ===== */}
                 <div className="grid lg:grid-cols-2 gap-12">
 
                     {/* ================= LEFT SIDE ================= */}
@@ -75,21 +84,19 @@ export default function ContactSection() {
                                     Email Address
                                 </h4>
                                 <p className="text-slate-600 text-sm">
-                                    contact@abcorpoindia.com
+                                    info@abcorpindia.com
                                 </p>
                             </div>
                         </div>
 
-                        {/* Real Google Map */}
+                        {/* Google Map */}
                         <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
                             <iframe
                                 src="https://www.google.com/maps?q=18.575638,73.765227&z=15&output=embed"
                                 width="100%"
                                 height="250"
                                 style={{ border: 0 }}
-                                allowFullScreen=""
                                 loading="lazy"
-                                referrerPolicy="no-referrer-when-downgrade"
                             ></iframe>
                         </div>
                     </motion.div>
@@ -102,7 +109,31 @@ export default function ContactSection() {
                         transition={{ duration: 0.7 }}
                         className="bg-white rounded-3xl p-8 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.12)] border border-slate-200"
                     >
-                        <form className="space-y-6">
+
+                        {/* Success / Error Message */}
+                        {status === "success" && (
+                            <p className="text-green-600 text-sm mb-4">
+                                ✅ Message sent successfully!
+                            </p>
+                        )}
+
+                        {status === "error" && (
+                            <p className="text-red-600 text-sm mb-4">
+                                ❌ Something went wrong. Please try again.
+                            </p>
+                        )}
+
+                        {status === "invalid" && (
+                            <p className="text-yellow-600 text-sm mb-4">
+                                ⚠️ Invalid email address.
+                            </p>
+                        )}
+
+                        <form
+                            action="https://abcorpindia.com/contact.php"
+                            method="POST"
+                            className="space-y-6"
+                        >
 
                             {/* Full Name */}
                             <div>
@@ -111,6 +142,8 @@ export default function ContactSection() {
                                 </label>
                                 <input
                                     type="text"
+                                    name="name"
+                                    required
                                     placeholder="John Doe"
                                     className="w-full rounded-lg bg-slate-100 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
                                 />
@@ -123,6 +156,8 @@ export default function ContactSection() {
                                 </label>
                                 <input
                                     type="email"
+                                    name="email"
+                                    required
                                     placeholder="john@company.com"
                                     className="w-full rounded-lg bg-slate-100 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
                                 />
@@ -134,6 +169,8 @@ export default function ContactSection() {
                                     Message
                                 </label>
                                 <textarea
+                                    name="message"
+                                    required
                                     rows="4"
                                     placeholder="How can we help your organization?"
                                     className="w-full rounded-lg bg-slate-100 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all resize-none"
