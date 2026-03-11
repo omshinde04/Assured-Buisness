@@ -2,29 +2,62 @@
 
 import { motion } from "framer-motion";
 import { MapPin, Mail } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function ContactSection() {
-    const [status, setStatus] = useState(null);
 
-    useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        const formStatus = params.get("status");
-        if (formStatus) {
-            setStatus(formStatus);
+    const [status, setStatus] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setStatus(null);
+
+        const formData = new FormData(e.target);
+
+        const data = {
+            name: formData.get("name"),
+            email: formData.get("email"),
+            message: formData.get("message"),
+        };
+
+        try {
+
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (res.ok) {
+                setStatus("success");
+                e.target.reset();
+            } else {
+                setStatus("error");
+            }
+
+        } catch (error) {
+            console.error(error);
+            setStatus("error");
         }
-    }, []);
+
+        setLoading(false);
+    };
 
     return (
         <section
             id="contact"
             className="relative py-16 lg:py-24 bg-gradient-to-b from-white via-slate-50 to-white overflow-hidden"
         >
+
             <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative max-w-7xl mx-auto px-6">
 
-                {/* ===== Header ===== */}
+                {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 25 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -47,7 +80,7 @@ export default function ContactSection() {
 
                 <div className="grid lg:grid-cols-2 gap-12">
 
-                    {/* ================= LEFT SIDE ================= */}
+                    {/* LEFT SIDE */}
                     <motion.div
                         initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -55,7 +88,7 @@ export default function ContactSection() {
                         transition={{ duration: 0.7 }}
                         className="space-y-8"
                     >
-                        {/* Head Office */}
+
                         <div className="flex gap-4 items-start">
                             <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                                 <MapPin size={20} />
@@ -74,7 +107,6 @@ export default function ContactSection() {
                             </div>
                         </div>
 
-                        {/* Email */}
                         <div className="flex gap-4 items-start">
                             <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                                 <Mail size={20} />
@@ -89,7 +121,6 @@ export default function ContactSection() {
                             </div>
                         </div>
 
-                        {/* Google Map */}
                         <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
                             <iframe
                                 src="https://www.google.com/maps?q=18.575638,73.765227&z=15&output=embed"
@@ -99,9 +130,10 @@ export default function ContactSection() {
                                 loading="lazy"
                             ></iframe>
                         </div>
+
                     </motion.div>
 
-                    {/* ================= RIGHT SIDE ================= */}
+                    {/* RIGHT SIDE */}
                     <motion.div
                         initial={{ opacity: 0, x: 30 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -110,7 +142,6 @@ export default function ContactSection() {
                         className="bg-white rounded-3xl p-8 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.12)] border border-slate-200"
                     >
 
-                        {/* Success / Error Message */}
                         {status === "success" && (
                             <p className="text-green-600 text-sm mb-4">
                                 ✅ Message sent successfully!
@@ -123,69 +154,60 @@ export default function ContactSection() {
                             </p>
                         )}
 
-                        {status === "invalid" && (
-                            <p className="text-yellow-600 text-sm mb-4">
-                                ⚠️ Invalid email address.
-                            </p>
-                        )}
+                        <form onSubmit={handleSubmit} className="space-y-6">
 
-                        <form
-                            action="https://abcorpindia.com/contact.php"
-                            method="POST"
-                            className="space-y-6"
-                        >
-
-                            {/* Full Name */}
                             <div>
                                 <label className="block text-xs uppercase tracking-[0.3em] text-slate-400 mb-2">
                                     Full Name
                                 </label>
+
                                 <input
                                     type="text"
                                     name="name"
                                     required
                                     placeholder="John Doe"
-                                    className="w-full rounded-lg bg-slate-100 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+                                    className="w-full rounded-lg bg-slate-100 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                                 />
                             </div>
 
-                            {/* Email */}
                             <div>
                                 <label className="block text-xs uppercase tracking-[0.3em] text-slate-400 mb-2">
                                     Email Address
                                 </label>
+
                                 <input
                                     type="email"
                                     name="email"
                                     required
                                     placeholder="john@company.com"
-                                    className="w-full rounded-lg bg-slate-100 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+                                    className="w-full rounded-lg bg-slate-100 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                                 />
                             </div>
 
-                            {/* Message */}
                             <div>
                                 <label className="block text-xs uppercase tracking-[0.3em] text-slate-400 mb-2">
                                     Message
                                 </label>
+
                                 <textarea
                                     name="message"
                                     required
                                     rows="4"
                                     placeholder="How can we help your organization?"
-                                    className="w-full rounded-lg bg-slate-100 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all resize-none"
+                                    className="w-full rounded-lg bg-slate-100 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"
                                 />
                             </div>
 
-                            {/* Button */}
                             <button
                                 type="submit"
-                                className="w-full bg-primary hover:bg-blue-900 text-white font-semibold py-3 rounded-lg transition-all duration-300 shadow-sm hover:shadow-md"
+                                disabled={loading}
+                                className="w-full bg-primary hover:bg-blue-900 text-white font-semibold py-3 rounded-lg transition-all duration-300"
                             >
-                                Send Message
+                                {loading ? "Sending..." : "Send Message"}
                             </button>
 
                         </form>
+
                     </motion.div>
 
                 </div>
